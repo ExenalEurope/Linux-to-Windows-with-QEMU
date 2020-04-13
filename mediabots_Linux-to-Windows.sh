@@ -32,13 +32,13 @@ fi
 sudo ln -s /usr/bin/genisoimage /usr/bin/mkisofs
 # Downloading resources
 sudo mkdir /mediabots /floppy /virtio
-link1_status=$(curl -Is http://163.172.181.86/WS2012R2.ISO | grep HTTP | cut -f2 -d" ")
-link2_status=$(curl -Is https://ia601506.us.archive.org/4/items/WS2012R2/WS2012R2.ISO | grep HTTP | cut -f2 -d" ")
-#sudo wget -P /mediabots https://archive.org/download/WS2012R2/WS2012R2.ISO # Windows Server 2012 R2 
+link1_status=$(curl -Is https://download831.mediafire.com/eyhowjzoozyg/0fooeoq4f7tgv9k/Windows2012.ISO | grep HTTP | cut -f2 -d" ")
+link2_status=$(curl -Is https://download831.mediafire.com/eyhowjzoozyg/0fooeoq4f7tgv9k/Windows2012.ISO | grep HTTP | cut -f2 -d" ")
+#sudo wget -P /mediabots https://download831.mediafire.com/eyhowjzoozyg/0fooeoq4f7tgv9k/Windows2012.ISO # Windows Server 2012 R2 
 if [ $link1_status = "200" ] ; then 
-	sudo wget -P /mediabots http://163.172.181.86/WS2012R2.ISO
+	sudo wget -P /mediabots https://download831.mediafire.com/eyhowjzoozyg/0fooeoq4f7tgv9k/Windows2012.ISO
 elif [ $link2_status = "200" -o $link2_status = "301" -o $link2_status = "302" ] ; then 
-	sudo wget -P /mediabots https://ia601506.us.archive.org/4/items/WS2012R2/WS2012R2.ISO
+	sudo wget -P /mediabots https://download831.mediafire.com/eyhowjzoozyg/0fooeoq4f7tgv9k/Windows2012.ISO
 else
 	echo -e "${RED}[Error]${NC} ${YELLOW}Sorry! None of Windows OS image urls are available , please report about this issue on Github page : ${NC}https://github.com/mediabots/Linux-to-Windows-with-QEMU"
 	echo "Exiting.."
