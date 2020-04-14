@@ -250,8 +250,7 @@ echo -e "${GREEN_D}$qemupath -net nic -net user,hostfwd=tcp::3389-:3389 -show-cu
 fi
 echo -e "${BLUE}command also saved in /details.txt file${NC}"
 echo -e "${YELLOW}Now download 'VNC Viewer' App from here :${NC} https://www.realvnc.com/en/connect/download/viewer/\n${YELLOW}Then install it on your computer${NC}"
-echo -e "Finally open ${GREEN_D}$ip:9${NC} on your VNC viewer."
-echo "Windows OS required at least 25GB free desk space. Your Server/VPS does't have 25GB free space!"
+echo -e "Finally open ${GREEN_D}$ip:9${NC} on your VNC viewer." 
 echo "Exiting....."
 fi
 fi
