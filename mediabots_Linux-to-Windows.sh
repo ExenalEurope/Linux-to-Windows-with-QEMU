@@ -32,13 +32,13 @@ fi
 sudo ln -s /usr/bin/genisoimage /usr/bin/mkisofs
 # Downloading resources
 sudo mkdir /mediabots /floppy /virtio
-link1_status=$(curl -Is https://download831.mediafire.com/eyhowjzoozyg/0fooeoq4f7tgv9k/Windows2012.ISO | grep HTTP | cut -f2 -d" ")
-link2_status=$(curl -Is https://download831.mediafire.com/eyhowjzoozyg/0fooeoq4f7tgv9k/Windows2012.ISO | grep HTTP | cut -f2 -d" ")
-#sudo wget -P /mediabots https://download831.mediafire.com/eyhowjzoozyg/0fooeoq4f7tgv9k/Windows2012.ISO # Windows Server 2012 R2 
+link1_status=$(curl -Is http://download831.mediafire.com/da53qzmtonvg/0fooeoq4f7tgv9k/Windows2012.ISO | grep HTTP | cut -f2 -d" ")
+link2_status=$(curl -Is http://download831.mediafire.com/da53qzmtonvg/0fooeoq4f7tgv9k/Windows2012.ISO | grep HTTP | cut -f2 -d" ")
+#sudo wget -P /mediabots http://download831.mediafire.com/da53qzmtonvg/0fooeoq4f7tgv9k/Windows2012.ISO # Windows Server 2012 R2 
 if [ $link1_status = "200" ] ; then 
-	sudo wget -P /mediabots https://download831.mediafire.com/eyhowjzoozyg/0fooeoq4f7tgv9k/Windows2012.ISO
+	sudo wget -P /mediabots http://download831.mediafire.com/da53qzmtonvg/0fooeoq4f7tgv9k/Windows2012.ISO
 elif [ $link2_status = "200" -o $link2_status = "301" -o $link2_status = "302" ] ; then 
-	sudo wget -P /mediabots https://download831.mediafire.com/eyhowjzoozyg/0fooeoq4f7tgv9k/Windows2012.ISO
+	sudo wget -P /mediabots http://download831.mediafire.com/da53qzmtonvg/0fooeoq4f7tgv9k/Windows2012.ISO
 else
 	echo -e "${RED}[Error]${NC} ${YELLOW}Sorry! None of Windows OS image urls are available , please report about this issue on Github page : ${NC}https://github.com/mediabots/Linux-to-Windows-with-QEMU"
 	echo "Exiting.."
@@ -110,7 +110,7 @@ else
 fi
 if [ $diskNumbers -eq 1 ] ; then # opened 1st if
 if [ $availableRAM -ge 4650 ] ; then # opened 2nd if
-	echo -e "${BLUE}For below option pass${NC} yes ${BLUE}iff, your VPS/Server came with${NC} boot system in ${NC}${RED}'RESCUE'${NC} mode ${BLUE}feature${NC}"
+	echo -e "${BLUE}For below option pass${NC} yes ${BLUE}if, your VPS/Server came with${NC} boot system in ${NC}${RED}'RESCUE'${NC} mode ${BLUE}feature${NC}"
 	read -r -p "Do you want to completely delete your current Linux O.S.? (yes/no) : " deleteLinux
 	deleteLinux=$(echo "$deleteLinux" | head -c 1)
 	if [ ! -z $deleteLinux ] && [ $deleteLinux = 'Y' -o $deleteLinux = 'y' ] ; then
