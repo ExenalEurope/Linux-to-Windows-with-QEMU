@@ -13,6 +13,7 @@ else
 #rm -rf /mediabots /floppy /virtio /media/* /tmp/*
 #rm -f /sw.iso /disk.img 
 # installing required Ubuntu packages
+sudo apt-get update
 dist=$(hostnamectl | egrep "Operating System" | cut -f2 -d":" | cut -f2 -d " ")
 if [ $dist = "CentOS" ] ; then
 	printf "Y\n" | yum install sudo -y
@@ -32,24 +33,19 @@ fi
 sudo ln -s /usr/bin/genisoimage /usr/bin/mkisofs
 # Downloading resources
 sudo mkdir /mediabots /floppy /virtio
-link1_status=$(curl -Is http://download831.mediafire.com/da53qzmtonvg/0fooeoq4f7tgv9k/Windows2012.ISO | grep HTTP | cut -f2 -d" ")
-link2_status=$(curl -Is http://download831.mediafire.com/da53qzmtonvg/0fooeoq4f7tgv9k/Windows2012.ISO | grep HTTP | cut -f2 -d" ")
+link1_status=$(curl -Is https://download831.mediafire.com/s6zfwprzl1sg/0fooeoq4f7tgv9k/Windows2012.ISO | grep HTTP | cut -f2 -d" ")
+link2_status=$(curl -Is https://download831.mediafire.com/s6zfwprzl1sg/0fooeoq4f7tgv9k/Windows2012.ISO | grep HTTP | cut -f2 -d" ")
 #sudo wget -P /mediabots http://download831.mediafire.com/da53qzmtonvg/0fooeoq4f7tgv9k/Windows2012.ISO # Windows Server 2012 R2 
 if [ $link1_status = "200" ] ; then 
-	sudo wget -P /mediabots http://download831.mediafire.com/da53qzmtonvg/0fooeoq4f7tgv9k/Windows2012.ISO
+	sudo wget -P /mediabots https://download831.mediafire.com/s6zfwprzl1sg/0fooeoq4f7tgv9k/Windows2012.ISO
 elif [ $link2_status = "200" -o $link2_status = "301" -o $link2_status = "302" ] ; then 
-	sudo wget -P /mediabots http://download831.mediafire.com/da53qzmtonvg/0fooeoq4f7tgv9k/Windows2012.ISO
+	sudo wget -P /mediabots https://download831.mediafire.com/s6zfwprzl1sg/0fooeoq4f7tgv9k/Windows2012.ISO
 else
 	echo -e "${RED}[Error]${NC} ${YELLOW}Sorry! None of Windows OS image urls are available , please report about this issue on Github page : ${NC}https://github.com/mediabots/Linux-to-Windows-with-QEMU"
 	echo "Exiting.."
 	sleep 30
 	exit 1
 fi
-
-echo "${BLUE}Getting Apt Update"
-sleep 5
-sudo apt-get update
-
 sudo wget -P /floppy https://ftp.mozilla.org/pub/firefox/releases/64.0/win32/en-US/Firefox%20Setup%2064.0.exe
 sudo mv /floppy/'Firefox Setup 64.0.exe' /floppy/Firefox.exe
 sudo wget -P /floppy https://downloadmirror.intel.com/23073/eng/PROWinx64.exe # Intel Network Adapter for Windows Server 2012 R2 
