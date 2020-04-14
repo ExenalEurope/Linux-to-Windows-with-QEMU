@@ -251,41 +251,6 @@ fi
 echo -e "${BLUE}command also saved in /details.txt file${NC}"
 echo -e "${YELLOW}Now download 'VNC Viewer' App from here :${NC} https://www.realvnc.com/en/connect/download/viewer/\n${YELLOW}Then install it on your computer${NC}"
 echo -e "Finally open ${GREEN_D}$ip:9${NC} on your VNC viewer."
-if [ $mounted = 1 ]; then
-read -r -p "Had your Windows Server setup completed successfully? (yes/no) : " setup_initial
-setup_initial=$(echo "$setup_initial" | head -c 1)
-sleep 10
-if [ ! -z $setup_initial ] && [ $setup_initial = 'Y' -o $setup_initial = 'y' ] ; then
-echo $pid $cpus $custom_param_disk $custom_param_sw $other_drives
-echo "helper called" 
-for i in $(ps aux | grep -i "qemu" | head -2 | tr -s '[:space:]' | cut -f2 -d" ") ; do echo "killing process id : "$i ; kill -9 $i ; done
-#sleep 30
-echo "un-mounting"
-umount -l /mnt
-sleep 10
-df
-sync; echo 3 > /proc/sys/vm/drop_caches
-free -m 
-availableRAM=$(echo $availableRAMcommand | bash)
-custom_param_ram="-m "$(expr $availableRAM - 200 )"M"
-custom_param_ram2="-m "$(expr $availableRAM - 500 )"M"
-echo $custom_param_ram
-echo "[..] running QEMU-KVM again"
-$qemupath -net nic -net user,hostfwd=tcp::3389-:3389 -show-cursor $custom_param_ram -localtime -enable-kvm -cpu host,hv_relaxed,hv_spinlocks=0x1fff,hv_vapic,hv_time,+nx -M pc -smp cores=$cpus -vga std -machine type=pc,accel=kvm -usb -device usb-tablet -k en-us -drive file=$custom_param_disk,index=0,media=disk -drive file=$custom_param_sw,index=1,media=cdrom $other_drives -boot c -vnc :9 &
-pid2=$(echo $! | head -1)
-disown -h $pid2
-echo "disowned PID : "$pid2
-echo "[ For Debugging purpose ]"
-echo -e "$qemupath -net nic -net user,hostfwd=tcp::3389-:3389 -show-cursor $custom_param_ram -localtime -enable-kvm -cpu host,hv_relaxed,hv_spinlocks=0x1fff,hv_vapic,hv_time,+nx -M pc -smp cores=$cpus -vga std -machine type=pc,accel=kvm -usb -device usb-tablet -k en-us -drive file=$custom_param_disk,index=0,media=disk -drive file=$custom_param_sw,index=1,media=cdrom $other_drives -boot c -vnc :9 & disown %1"
-echo -e "${YELLOW} SAVE BELOW GREEN COLORED COMMAND IN A SAFE LOCATION FOR FUTURE USAGE${NC}"
-echo -e "${GREEN}wget -P /tmp https://archive.org/download/vkvm.tar_201903/vkvm.tar.gz && tar -C /tmp -zxvf /tmp/vkvm.tar.gz && rm /tmp/vkvm.tar.gz && $qemupath -net nic -net user,hostfwd=tcp::3389-:3389 -show-cursor $custom_param_ram2 -localtime -enable-kvm -cpu host,hv_relaxed,hv_spinlocks=0x1fff,hv_vapic,hv_time,+nx -M pc -smp cores=$cpus -vga std -machine type=pc,accel=kvm -usb -device usb-tablet -k en-us -drive file=$custom_param_disk,index=0,media=disk $other_drives -boot c -vnc :9 & disown %1${NC}"
-echo -e "Now you can access your Windows server through \"VNC viewer\" or \"Remote Desktop Application\" (if your server 'Remote Desktop' is enabled)."
-echo "Job Done :)"
-fi
-else
-echo "Job Done :)"
-fi
-else
 echo "Windows OS required at least 25GB free desk space. Your Server/VPS does't have 25GB free space!"
 echo "Exiting....."
 fi
